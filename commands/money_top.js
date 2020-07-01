@@ -1,0 +1,254 @@
+var logo = "https://i.imgur.com/UsKW7HU.png";
+var footer = "FunkyMonkey Bot"; //the name of bot for footer
+
+const Discord = require("discord.js");
+const db = require("quick.db");
+
+module.exports.run = async (bot, message, args) => {
+  let user = message.mentions.members.first() || message.author;
+  
+  var guild = message.guild.id; //707350785628962899
+
+      let buffertag = db.fetch(`parrentid_${guild}`)
+       if (message.channel.parent.id !== `${buffertag}`) return message.reply(`You can only use this command in the **__<#${buffertag}>__**`)
+  
+   let contributiontag = db.fetch(`contributionid_${guild}`)
+    if (message.channel.id !== `${contributiontag}`) return message.reply(`You can only use this command in the **<#${contributiontag}>** channel.`)
+ 
+
+  const money = db.startsWith(`money3_${guild}_`, { sort: ".data" });
+  money.length = 10;
+  let count = 0;
+  let content = "";
+  for (let i = 0; i < 10; i++) {
+    count = count + 1;
+    content += `**${count}** - <@${money[i].ID.split("_")[2]}> **$${money[
+      i
+    ].data
+      .toLocaleString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}**\n`;
+  }
+  //money_${message.guild.id}_${user.id}
+  let pages = ["1", "2", "3", "4", "5"];
+  let page = 1;
+
+  const embed = new Discord.RichEmbed()
+    .setColor("#DEA82A")
+    .setTitle("Top Donators", `Page ${page} of ${pages.length}`)
+    .setFooter(
+      `FunkyMonkey Bot - Page ${page} of ${pages.length}`,
+      `${logo}`,
+      `Page ${page} of ${pages.length}`
+    )
+    .setDescription(content);
+
+  message.channel.send(embed).then(msg => {
+    msg.react("⏪").then(r => {
+      msg.react("⏩");
+
+      const backwardsFilter = (reaction, user) =>
+        reaction.emoji.name === "⏪" && user.id === message.author.id;
+      const forwardsFilter = (reaction, user) =>
+        reaction.emoji.name === "⏩" && user.id === message.author.id;
+
+      const backwards = msg.createReactionCollector(backwardsFilter, {
+        time: 60000
+      });
+      const forwards = msg.createReactionCollector(forwardsFilter, {
+        time: 60000
+      });
+
+      backwards.on("collect", r => {
+        if (page === 2) {
+          const money = db.startsWith(`money3_${guild}_`, { sort: ".data" });
+          money.length = 10;
+          let count = 0;
+          let content = "";
+          for (let i = 0; i < 10; i++) {
+            count = count + 1;
+            content += `**${count}** - <@${
+              money[i].ID.split("_")[2]
+            }> **$${money[i].data
+              .toLocaleString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}**\n`;
+          }
+          if (page === 1) return;
+          page--;
+          embed.setDescription(content);
+          embed.setFooter(
+            `FunkyMonkey Bot - Page ${page} of ${pages.length}`,
+            `${logo}`
+          );
+          msg.edit(embed);
+        } else {
+          if (page === 3) {
+            const money = db.startsWith(`money3_${guild}_`, { sort: ".data" });
+            money.length = 20;
+            let count = 10;
+            let content2 = "";
+            for (let i = 10; i < 20; i++) {
+              count = count + 1;
+              content2 += `**${count}** - <@${
+                money[i].ID.split("_")[2]
+              }> **$${money[i].data
+                .toLocaleString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}**\n`;
+            }
+            if (page === 2) return;
+            page--;
+            embed.setDescription(content2);
+            embed.setFooter(
+              `FunkyMonkey Bot - Page ${page} of ${pages.length}`,
+              `${logo}`
+            );
+            msg.edit(embed);
+          } else {
+            if (page === 4) {
+              const money = db.startsWith(`money3_${guild}_`, { sort: ".data" });
+              money.length = 30;
+              let count = 20;
+              let content3 = "";
+              for (let i = 20; i < 30; i++) {
+                count = count + 1;
+                content3 += `**${count}** - <@${
+                  money[i].ID.split("_")[2]
+                }> **$${money[i].data
+                  .toLocaleString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}**\n`;
+              }
+              if (page === 3) return;
+              page--;
+              embed.setDescription(content3);
+              embed.setFooter(
+                `FunkyMonkey Bot - Page ${page} of ${pages.length}`,
+                `${logo}`
+              );
+              msg.edit(embed);
+            } else {
+              if (page === 5) {
+                const money = db.startsWith(`money3_${guild}_`, { sort: ".data" });
+                money.length = 40;
+                let count = 30;
+                let content4 = "";
+                for (let i = 30; i < 40; i++) {
+                  count = count + 1;
+                  content4 += `**${count}** - <@${
+                    money[i].ID.split("_")[2]
+                  }> **$${money[i].data
+                    .toLocaleString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}**\n`;
+                }
+                if (page === 4) return;
+                page--;
+                embed.setDescription(content4);
+                embed.setFooter(
+                  `FunkyMonkey Bot - Page ${page} of ${pages.length}`,
+                  `${logo}`
+                );
+                msg.edit(embed);
+              }
+            }
+          }
+        }
+      });
+
+      forwards.on("collect", r => {
+        if (page === 1) {
+          const money = db.startsWith(`money3_${guild}_`, { sort: ".data" });
+          money.length = 20;
+          let count = 10;
+          let content = "";
+          for (let i = 10; i < 20; i++) {
+            count = count + 1;
+            content += `**${count}** - <@${
+              money[i].ID.split("_")[2]
+            }> **$${money[i].data
+              .toLocaleString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}**\n`;
+          }
+          if (page === 2) return;
+          page++;
+          embed.setDescription(content);
+          embed.setFooter(
+            `FunkyMonkey Bot - Page ${page} of ${pages.length}`,
+            `${logo}`
+          );
+          msg.edit(embed);
+        } else {
+          if (page === 2) {
+            const money = db.startsWith(`money3_${guild}_`, { sort: ".data" });
+            money.length = 30;
+            let count = 20;
+            let content2 = "";
+            for (let i = 20; i < 30; i++) {
+              count = count + 1;
+              content2 += `**${count}** - <@${
+                money[i].ID.split("_")[2]
+              }> **$${money[i].data
+                .toLocaleString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}**\n`;
+            }
+            if (page === 3) return;
+            page++;
+            embed.setDescription(content2);
+            embed.setFooter(
+              `FunkyMonkey Bot - Page ${page} of ${pages.length}`,
+              `${logo}`
+            );
+            msg.edit(embed);
+          } else {
+            if (page === 3) {
+              const money = db.startsWith(`money3_${guild}_`, { sort: ".data" });
+              money.length = 40;
+              let count = 30;
+              let content3 = "";
+              for (let i = 30; i < 40; i++) {
+                count = count + 1;
+                content3 += `**${count}** - <@${
+                  money[i].ID.split("_")[2]
+                }> **$${money[i].data
+                  .toLocaleString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}**\n`;
+              }
+              if (page === 4) return;
+              page++;
+              embed.setDescription(content3);
+              embed.setFooter(
+                `FunkyMonkey Bot - Page ${page} of ${pages.length}`,
+                `${logo}`
+              );
+              msg.edit(embed);
+            } else {
+              if (page === 4) {
+                const money = db.startsWith(`money3_${guild}_`, { sort: ".data" });
+                money.length = 50;
+                let count = 40;
+                let content4 = "";
+                for (let i = 40; i < 50; i++) {
+                  count = count + 1;
+                  content4 += `**${count}** - <@${
+                    money[i].ID.split("_")[2]
+                  }> **$${money[i].data
+                    .toLocaleString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}**\n`;
+                }
+                if (page === 5) return;
+                page++;
+                embed.setDescription(content4);
+                embed.setFooter(
+                  `FunkyMonkey Bot - Page ${page} of ${pages.length}`,
+                  `${logo}`
+                );
+                msg.edit(embed);
+              }
+            }
+          }
+        }
+      });
+    });
+  });
+};
+
+module.exports.help = {
+  name: "top"
+};
