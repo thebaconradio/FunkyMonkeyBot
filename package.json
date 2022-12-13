@@ -28,7 +28,7 @@
     "parse-ms": "^2.0.0",
     "sqlite3": "^4.0.4",
     "enmap": "^5.2.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.2.2",
     "ms": "^2.1.2",
